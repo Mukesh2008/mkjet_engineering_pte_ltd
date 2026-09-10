@@ -7,6 +7,7 @@ import {
 } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import AdminApp from '@/AdminApp';
+import { Analytics } from '@vercel/analytics/react';
 
 type Review = { id: string; customer_name: string; rating: number; review: string; service: string | null; created_at: string };
 
@@ -351,6 +352,7 @@ function App() {
       {selectedService && <ServiceDetailOverlay service={selectedService} onClose={() => setSelectedService(null)} onQuote={() => { setSelectedService(null); setQuoteOpen(true); }} />}
 
       {quoteOpen && <div className="modal-backdrop" onClick={() => setQuoteOpen(false)}><div className="quote-modal" onClick={(event) => event.stopPropagation()}><button className="modal-close" onClick={() => setQuoteOpen(false)} aria-label="Close quote form"><X size={18} /></button><div className="eyebrow">Fast response</div><h2>Get your free <em>quote.</em></h2><p>Tell us a little about what is happening. We will get back to you with a clear next step.</p><form onSubmit={(event) => { setQuoteOpen(false); void submitEnquiry(event); }}><label>Full name<input name="name" required placeholder="Your name" /></label><label>Phone number<input name="phone" required placeholder="+65" /></label><label>What do you need help with?<select name="service" defaultValue=""><option value="" disabled>Select a service</option>{services.map((service) => <option key={service.title}>{service.title}</option>)}</select></label><button className="button button-primary full-button">Request a quote <ArrowRight size={16} /></button></form></div></div>}
+      <Analytics />
     </div>
   );
 }
